@@ -1,0 +1,35 @@
+<ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="cities.length; else noCities">
+        <p>{{ weatherConst.CURRENT_WEATHER_DESC[0] }} <strong>{{ weatherConst.CURRENT_WEATHER_DESC[1] }}</strong> {{ weatherConst.CURRENT_WEATHER_DESC[2] }} <strong>{{ weatherConst.CURRENT_WEATHER_DESC[3] }}</strong> {{ weatherConst.CURRENT_WEATHER_DESC[4] }} <strong>{{cities[0].dt*1000 | date:'dd/MM/yyy'}}</strong></p>
+        <div class="card" id="card-{{city.name}}" *ngFor='let city of cities'>
+            <div class="card-body">
+                <h4 class="card-title">{{city.name}}</h4>
+                <img class="weather-icon" src="http://openweathermap.org/img/w/{{city.weather[0].icon}}.png">
+                <div class="row mb-1">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label class="d-block"><b>{{ weatherConst.TEMPERATURE }}</b></label>
+                        <span>{{city.main.temp}} {{ weatherConst.FAHRENHEIT }}</span>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label class="d-block"><b>{{ weatherConst.SUNRISE }}</b></label>
+                        <span>{{city.sys.sunrise*1000 | date: 'h:mm:ss a'}}</span>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label class="d-block"><b>{{ weatherConst.SUNSET }}</b></label>
+                        <span>{{city.sys.sunset*1000 | date: 'h:mm:ss a'}}</span>
+                    </div>
+                </div>
+                <a [routerLink]="['/forecast', city.name]" class="btn btn-primary">{{ weatherConst.FORECAST_5_Day }}</a>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noCities>
+        <p>{{ weatherConst.NO_CITIES_FOUND }}</p>
+    </ng-template>
+</ng-container>
+<ng-template #loading>
+    <div class="loader-container">
+        <i class="fa fa-spinner fa-spin fa-2x"></i> 
+        <span>{{ weatherConst.LOADING }}</span>
+    </div>
+</ng-template>

@@ -1,0 +1,33 @@
+<button [routerLink]="['/home']" class="btn btn-primary mb-2">{{ weatherConst.BACK_TO_CITIES }}</button>
+<ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="forecastedWeatherReport.length; else noForecast">
+        <p>{{ weatherConst.FORECAST_WEATHER_DESC[0] }} {{city}} {{ weatherConst.FORECAST_WEATHER_DESC[1] }} <strong>{{ weatherConst.FORECAST_WEATHER_DESC[2] }}</strong>.</p>
+        <div class="d-flex flex-wrap">
+            <div class="card" *ngFor="let forecast of forecastedWeatherReport">
+                <div class="card-body">
+                    <h5>{{forecast.dt_txt | date:'dd/MM/yyy'}}</h5>
+                    <img src="http://openweathermap.org/img/w/{{forecast.weather[0].icon}}.png">
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label class="d-block"><b>{{ weatherConst.TEMPERATURE }}</b></label>
+                            <span>{{forecast.main.temp}} {{ weatherConst.FAHRENHEIT }}</span>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label class="d-block"><b>{{ weatherConst.SEA_LEVEL }}</b></label>
+                            <span>{{forecast.main.sea_level}} {{ weatherConst.PASCAL }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noForecast>
+        <p>{{ weatherConst.NO_FORECAST_DATA }}</p>
+    </ng-template>
+</ng-container>
+<ng-template #loading>
+    <div class="loader-container">
+        <i class="fa fa-spinner fa-spin fa-2x"></i> 
+        <span>{{ weatherConst.LOADING }}</span>
+    </div>
+</ng-template>
